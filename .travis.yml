@@ -1,0 +1,18 @@
+dist: xenial
+language: python
+python:
+  - "3.7"
+
+services:
+  - docker
+  
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+jobs:
+  include:
+    - stage: build
+      name: "build cuda image"
+      script:
+        - docker build -t "yzs981130/pytorch" .
+        - docker push yzs981130/pytorch
